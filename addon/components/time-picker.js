@@ -107,7 +107,7 @@ export default Ember.Component.extend(
      * {string} Power-select property pass-through
      * @see http://www.ember-power-select.com/docs/the-list
      */
-    destination: "",
+    destination: "<body>",
 
     /**
      * {bool} Power-select property pass-though indicating if the component is disabled or not.
