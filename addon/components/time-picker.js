@@ -104,21 +104,9 @@ export default Ember.Component.extend(
     allowClear: true,
 
     /**
-     * {string} Power-select property pass-through
-     * @see http://www.ember-power-select.com/docs/the-list
-     */
-    destination: "<body>",
-
-    /**
      * {bool} Power-select property pass-though indicating if the component is disabled or not.
      */
     disabled: false,
-
-    /**
-     * {bool} Power-select property pass-through (usually set to true if the component is in a modal)
-     * @see http://www.ember-power-select.com/docs/the-list
-     */
-    renderInPlace: false,
 
     /**
      * {string} default message displayed when searching for a time and the search has no match in the times array.
