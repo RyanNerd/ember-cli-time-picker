@@ -1,0 +1,12 @@
+<div style="text-align: right; clear: both; float: left; margin-right: 15px;">
+    Time:
+</div>
+
+<div style="width: 220px;">
+    {{time-picker
+        selectedTime=timeSelected
+        onchange=(action "onChange")
+    }}
+</div>
+<br/>
+<p>Time Selected: {{timeSelected}}</p>
