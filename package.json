@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-time-picker",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A time-picker add-on for Ember",
   "keywords": [
     "ember-addon",
@@ -16,7 +16,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/RyanNerd/ember-cli-time-picker"},
+    "url": "https://github.com/RyanNerd/ember-cli-time-picker"
+  },
   "scripts": {
     "build": "ember build",
     "start": "ember server",
