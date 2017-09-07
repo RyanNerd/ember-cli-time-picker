@@ -14,7 +14,9 @@
     "test": "tests",
     "dummy": "tests/dummy"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RyanNerd/ember-cli-time-picker"},
   "scripts": {
     "build": "ember build",
     "start": "ember server",
