@@ -1,15 +1,16 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import layout from '../templates/components/show-time';
 
-export default Ember.Component.extend({
+export default Component.extend({
     layout: layout,
     timeSelected: null,
+    time: null,
 
     actions:
     {
         onChange(value)
         {
-            console.log(value);
+            this.set('time', value);
         }
     }
 });
