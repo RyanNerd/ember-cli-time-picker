@@ -7,9 +7,11 @@ module.exports = {
   included()
   {
     this._super.included.apply(this, arguments);
-    this.ui.writeLine('');
-    this.ui.writeLine('https://github.com/RyanNerd/ember-cli-time-picker');
-    this.ui.writeLine('Thanks for using the time-picker addon!');
-    this.ui.writeLine('');
+
+    try {
+      this.ui.writeLine('Initializing time-picker addon.');
+    } catch (e) {
+      // NOP
+    }
   }
 };

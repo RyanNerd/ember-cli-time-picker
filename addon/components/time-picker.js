@@ -284,7 +284,13 @@ export default Component.extend(
     // If selectedTime is set/overridden/calculated we need to tell power-select about it.
     if (this.get('selectedTime') !== null) {
       // We can't do this in the init() because power-select has not been loaded into the DOM yet.
-      this.notifyPropertyChange('selectedTime');
+      try {
+        // Works in Ember 2.15+
+        this.notifyPropertyChange('selectedTime');
+      } catch (e) {
+        // Ugly work around for Ember < 2.15
+        this.set('selectedTime', this.get('selectedTime'));
+      }
     }
   },
 
