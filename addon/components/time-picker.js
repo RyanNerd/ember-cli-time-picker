@@ -273,7 +273,9 @@ export default Component.extend(
     }
 
     let selectedTime = this.get('selectedTime');
-    warn('time-picker: Invalid selectedTime: ' + selectedTime, selectedTime && times.includes(selectedTime), {"id" : "ember-cli-time-picker"});
+    if (selectedTime) {
+      warn('time-picker: Invalid selectedTime: ' + selectedTime, times.includes(selectedTime), {"id" : "ember-cli-time-picker"});
+    }
   },
 
   /**
