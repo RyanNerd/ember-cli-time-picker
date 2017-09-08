@@ -1,14 +1,31 @@
-<div style="text-align: right; clear: both; float: left; margin-right: 15px;">
-    Time:
-</div>
+<p>Default Times Array</p>
 
+<div style="text-align: right; clear: both; float: left; margin-right: 15px;">
+  Time:
+</div>
 <div style="width: 220px;">
     {{time-picker
-        selectedTime=timeSelected
-        onchange=(action "onChange")
+      selectedTime=timeSelected
+      onchange=(action "onChange")
     }}
 </div>
 <br/>
 <p>timeSelected property: {{timeSelected}}</p>
-
 <p>Time from Action.onChange(): {{time}} </p>
+
+<hr>
+
+<p>Calculated Times Array</p>
+<div style="text-align: right; clear: both; float: left; margin-right: 15px;">
+  Time:
+</div>
+<div style="width: 220px;">
+  {{time-picker
+    selectedTime=timeSelected2
+    onchange=(action "onChange2")
+    increment=5
+  }}
+</div>
+<br/>
+<p>timeSelected2 property: {{timeSelected2}}</p>
+<p>Time from Action.onChange2(): {{time2}} </p>

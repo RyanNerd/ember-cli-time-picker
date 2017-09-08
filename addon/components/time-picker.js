@@ -1,7 +1,8 @@
 import Component from '@ember/component';
 import layout from '../templates/components/time-picker';
 
-import { assert } from '@ember/debug';
+// assert and warn calls are NOT included as executable code when distributing to production.
+import { assert, warn } from '@ember/debug';
 
 /**
  * @constant
@@ -60,6 +61,10 @@ const DEFAULT_TIMES =
     '12:00 PM'
   ];
 
+/**
+ * @description Implement power-select as an addon for the single purpose of selecting from a list of times.
+ * @see http://www.ember-power-select.com/
+ */
 export default Component.extend(
 {
   layout: layout,
@@ -67,16 +72,16 @@ export default Component.extend(
   /**
    * @description List of times to choose from.
    * @property
-   * @private
+   * @public
    * @type string[]
    */
   times: DEFAULT_TIMES,
 
   /**
-   * @description The currently selected time.
+   * @description The currently selected time (if not null it should be set to an element in the times[] property).
    * @property
    * @public
-   * @type {string}|{null}
+   * @type {string | null}
    */
   selectedTime: null,
 
@@ -89,37 +94,39 @@ export default Component.extend(
   defaultTimeToNow: true,
 
   /**
-   * @description When set to true military time format will be used.
+   * @description When set to true military time format will be used (Only applies if the times[] array is generated).
    * @property
    * @public
    * @type {boolean}
-   * @todo Implement
    */
   military: false,
 
   /**
    * @description Indicates the number of minute intervals
    * @property
-   * @type {int}
-   * @todo Implement
+   * @public
+   * @type {int | null}
+   * @default 30
    */
-  increment: 30,
+  increment: null,
 
   /**
    * @description Indicates the beginning hour in the picklist
    * @property
-   * @type {int}
-   * @todo Implement
+   * @public
+   * @type {int | null}
+   * @default 1
    */
-  startTimeHour: 0,
+  startTimeHour: null,
 
   /**
    * @description Indicates the ending hour in the picklist.
    * @property
-   * @type {int}
-   * @todo Implement
+   * @public
+   * @type {int | null}
+   * @default 24
    */
-  endTimeHour: 24,
+  endTimeHour: null,
 
   /**
    * @description Power-select property pass-through indicating that the time can be cleared by clicking [x]
@@ -154,37 +161,90 @@ export default Component.extend(
   searchEnabled: true,
 
   /**
-   * @description Fires prior to inserting the component into the DOM
-   * @todo If increment is !== 30 then generate times.
-   * @todo If startTimeHour != 0 then generate times.
-   * @todo If endTimeHour != 24 then generate times.
-   * @todo Override times with an array of military times if military === true
+   * This fires prior to inserting the component into the DOM
    */
   init()
   {
     this._super(...arguments);
 
+    // Cache properties we will be working with.
+    let increment = this.get('increment');
+    let startTimeHour = this.get('startTimeHour');
+    let endTimeHour = this.get('endTimeHour');
+    let times = this.get('times');
+    let military =this.get('military');
+
+    // If increment, startTimeHour, or endTimeHour is set then we calculate the times array.
+    if (increment !== null || startTimeHour !== null || endTimeHour !== null) {
+      // Set defaults for unset properties
+      if (increment === null) {
+        increment = 30;
+      }
+      if (startTimeHour === null) {
+        startTimeHour = 1;
+      }
+      if (endTimeHour === null) {
+        endTimeHour = 24;
+      }
+
+      // Cast increment, startTimeHour, and endTimeHour to int.
+      increment = parseInt(increment);
+      startTimeHour = parseInt(startTimeHour);
+      endTimeHour = parseInt(endTimeHour);
+
+      // For debugging
+      assert('time-picker: The increment property can not be <= 0.', increment > 0);
+      assert('time-picker: The increment property can not be > 59.', increment <= 59);
+      if (military === true) {
+        assert('time-picker: The startTimeHour property can not be < 0.', startTimeHour >= 0);
+        assert('time-picker: The endTimeHour property can not be < 0.', endTimeHour >= 0);
+      } else {
+        assert('time-picker: The startTimeHour property can not be < 1.', startTimeHour >= 1);
+        assert('time-picker: The endTimeHour property can not be < 1.', endTimeHour >= 1);
+      }
+      assert('time-picker: The startTimeHourProperty can not be > 24.', startTimeHour <= 24);
+      assert('time-picker: The endTimeHourProperty can not be > 24.', endTimeHour <= 24);
+      assert('time-picker: The startTimeHour can not be > endTimeHour.', startTimeHour <= endTimeHour);
+
+      // Calculate the times[]
+      times = [];
+      for (let hour = startTimeHour; hour <= endTimeHour; hour++) {
+        let amPm = "";
+        let actualHour = this.zeroPad(hour, 2);
+
+        // If NOT using military time then include AM/PM and change the actualHour to modulo 12 and drop leading zeros.
+        if (military === false) {
+          amPm = (hour > 12) ? ' PM' : ' AM';
+          actualHour = (hour > 12) ? hour - 12 : hour;
+          actualHour = actualHour.toString();
+        }
+
+        let minutes = 0;
+        while (minutes <=59) {
+          // Push the calculated time into the array.
+          times.push(actualHour + ':' + this.zeroPad(minutes, 2) + amPm);
+
+          // Increment the minutes.
+          minutes += increment;
+        }
+      }
+
+      // Set the times property to the calculated array.
+      this.set('times', times);
+    }
+
+    assert('time-picker: The times property must be a string array with at least one element.',
+      times.length !== 0 && typeof times[0] === 'string');
+
     // Is defaultTimeToNow true and the selectedTime not set?
-    if (this.get('selectedTime') === null && this.get('defaultTimeToNow')) {
-      /**
-       * @type {string[]}
-       */
-      let times = this.get('times'); // Get the array of acceptable times
+    if (this.get('selectedTime') === null && this.get('defaultTimeToNow') === true) {
+      // Get a Date object set to "now"
+      let time = new Date();
 
-      /**
-       * @type {Date}
-       */
-      let time = new Date(); // Get a Date object set to "now"
+      // Get the minutes value for "now"
+      let minutes = time.getMinutes();
 
-      /**
-       * @type {number}
-       */
-      let minutes = time.getMinutes(); // Get the minutes value from "now"
-
-      /**
-       * Prevent an endless loop with this flag.
-       * @type {boolean}
-       */
+      // Prevent an endless loop with this flag.
       let minuteFlag = false;
 
       /**
@@ -205,19 +265,23 @@ export default Component.extend(
         time.setMinutes(minutes);
       }
 
-      assert('Unable to calculate a valid time for "now".', time !== null);
-
-      // Since we calculated the time we fake an onchange action to bubble up the event to update the bound  property.
-      this.send('onchange', this.getFormattedTime(time));
+      // Was a valid time of "now" in the times array?
+      if (time !== null) {
+        // Since we calculated the selectedTime we fake an onchange action to bubble up the event.
+        this.send('onchange', this.getFormattedTime(time));
+      }
     }
+
+    let selectedTime = this.get('selectedTime');
+    warn('time-picker: Invalid selectedTime: ' + selectedTime, selectedTime !== null && times.includes(selectedTime), {"id" : "ember-cli-time-picker"});
   },
 
   /**
-   * Fires when the component is inserted into the DOM.
+   * This fires when the component is inserted into the DOM.
    */
   didInsertElement()
   {
-    // If selectedTime has been overridden/calculated we need to tell power-select about it.
+    // If selectedTime is set/overridden/calculated we need to tell power-select about it.
     if (this.get('selectedTime') !== null) {
       // We can't do this in the init() because power-select has not been loaded into the DOM yet.
       this.notifyPropertyChange('selectedTime');
@@ -232,7 +296,8 @@ export default Component.extend(
    */
   getFormattedTime(date = null)
   {
-    assert('Invalid type. "date" must be either null or a Date type.', date === null || date instanceof Date);
+    assert('time-picker: Invalid type, the date argument must be either null or a Date type.',
+      date === null || date instanceof Date);
 
     let time;
     if (date) {
@@ -242,7 +307,6 @@ export default Component.extend(
     }
     let hour = time.getHours();
     let minute = time.getMinutes();
-    // let second = time.getSeconds();
     let temp = '' + ((hour > 12) ? hour - 12 : hour);
     if (hour === 0) {
         temp = '12';
@@ -253,7 +317,18 @@ export default Component.extend(
   },
 
   /**
-   * @description Power-select pass-through actions
+   * Add leading zeros to a number returning the zero padded number as a string.
+   * @param {number} num The number to pad with zeros.
+   * @param {int} places Number of digits of the number to have leading zeros.
+   * @returns {string}
+   */
+  zeroPad(num, places) {
+    let zero = places - num.toString().length + 1;
+    return new Array(+(zero > 0 && zero)).join("0") + num;
+  },
+
+  /**
+   * @description All actions are power-select pass-through actions
    * (with the exception of onchange which also updates the selectedTime property).
    */
   actions:
