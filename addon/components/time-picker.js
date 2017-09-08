@@ -162,7 +162,6 @@ export default Component.extend(
 
   /**
    * This fires prior to inserting the component into the DOM
-   * @todo Override times with an array of military times if military === true
    */
   init()
   {
