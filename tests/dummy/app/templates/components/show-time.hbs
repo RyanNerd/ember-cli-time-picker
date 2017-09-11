@@ -33,11 +33,10 @@
 <hr>
 
 <p>Custom Times Array</p>
-<div style="text-align: right; clear: both; float: left; margin-right: 15px;">
-  Time:
-</div>
+<label id="custom-times" style="text-align: right; clear: both; float: left; margin-right: 15px;">Time:</label>
 <div style="width: 220px;">
   {{time-picker
+    triggerId="custom-times"
     selectedTime=customTimeSelected
     onchange=(action "onChange3")
     allowClear=false
@@ -45,6 +44,7 @@
     times=customTimes
   }}
 </div>
+
 <br/>
 <p>customTimeSelected property: {{customTimeSelected}}</p>
 <p>Time from Action.onChange3(): {{customTimeSelectedEventValue}} </p>

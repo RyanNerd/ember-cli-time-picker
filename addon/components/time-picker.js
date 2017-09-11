@@ -130,6 +130,43 @@ export default Component.extend(
   endTimeHour: null,
 
   /**
+   * @description Power-select property pass-through indicating the class of the "power-select" component.
+   * @property
+   * @public
+   * @type {string | null}
+   */
+  className: null,
+
+  /**
+   * @description Power-select property pass-through - id of the element used as target for the dropdown's content,
+   *              when not rendered in place.
+   * @property
+   * @public
+   * @type {string | undefined}
+   */
+  destination: undefined,
+
+  /**
+   * @description Power-select property pass-through - When truthy, the list of options will be rendered in place
+   *              instead of being attached to the root of the body and positioned with javascript.
+   *              Enabling this option also adds a wrapper div around the trigger and the content with
+   *              class .ember-power-select.
+   * @property
+   * @public
+   * @type {boolean}
+   */
+  renderInPlace: false,
+
+  /**
+   * @description Power-select pass-through - The id to be applied to the trigger.
+   *              Useful link the select to a <label> tag.
+   * @property
+   * @public
+   * @type {string}
+   */
+  triggerId: "",
+
+  /**
    * @description Power-select property pass-through indicating that the time can be cleared by clicking [x]
    * @property
    * @public
