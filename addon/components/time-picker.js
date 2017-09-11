@@ -306,10 +306,10 @@ export default Component.extend(
     if (this.get('selectedTime') !== null) {
       // We can't do this in the init() because power-select has not been loaded into the DOM yet.
       try {
-        // Works in Ember 2.15+
-        this.notifyPropertyChange('selectedTime');
+        this.propertyWillChange('selectedTime');
+        this.propertyDidChange('selectedTime');
       } catch (e) {
-        // Ugly work around for Ember < 2.15
+        // Ugly work-around by setting selectedTime to itself.
         this.set('selectedTime', this.get('selectedTime'));
       }
     }
