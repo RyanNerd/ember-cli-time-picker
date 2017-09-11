@@ -73,9 +73,9 @@ export default Component.extend(
    * @description List of times to choose from.
    * @property
    * @public
-   * @type string[]
+   * @type {string[] | null}
    */
-  times: DEFAULT_TIMES,
+  times: null,
 
   /**
    * @description The currently selected time (if not null it should be set to an element in the times[] property).
@@ -228,16 +228,22 @@ export default Component.extend(
           minutes += increment;
         }
       }
-
-      // Set the times property to the calculated array.
-      this.set('times', times);
     }
+
+    // If the times[] are not set then use the default.
+    if (times === null) {
+      times = DEFAULT_TIMES;
+    }
+
+    this.set('times', times);
 
     assert('time-picker: The times property must be a string array with at least one element.',
       times.length !== 0 && typeof times[0] === 'string');
 
+    let selectedTime = this.get('selectedTime');
+
     // Is defaultTimeToNow true and the selectedTime not set?
-    if (this.get('selectedTime') === null && this.get('defaultTimeToNow') === true) {
+    if (selectedTime === null && this.get('defaultTimeToNow') === true) {
       // Get a Date object set to "now"
       let time = new Date();
 
@@ -254,11 +260,18 @@ export default Component.extend(
       while(!times.includes(this.getFormattedTime(time))) {
         minutes++;
         if (minutes > 59) {
+          minutes = 0;
           if (!minuteFlag) {
             minuteFlag = true;
-            minutes = 0;
+
+            // Try incrementing the hour by one % 24 (because of the minuteFlag we only do this once).
+            let hours = time.getHours();
+            if (hours < 24) {
+              time.setHours(++hours);
+            } else {
+              time.setHours(0);
+            }
           } else {
-            time = null;
             break;
           }
         }
@@ -272,7 +285,6 @@ export default Component.extend(
       }
     }
 
-    let selectedTime = this.get('selectedTime');
     if (selectedTime) {
       warn('time-picker: Invalid selectedTime: ' + selectedTime, times.includes(selectedTime), {"id" : "ember-cli-time-picker"});
     }
@@ -299,7 +311,7 @@ export default Component.extend(
   /**
    * @description Returns the date object (or the current date) as a string in a "digital clock" format:
    * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Numbers_and_dates
-   * @param {[Date]} date Date object; if not provided the current date/time will be used.
+   * @param {Date | null} date Date object; if not provided the current date/time will be used.
    * @returns {string} The date as a string in a "digital clock" format (ex: 12:08 PM, 3:14 AM).
    */
   getFormattedTime(date = null)
