@@ -86,7 +86,8 @@ export default Component.extend(
   selectedTime: null,
 
   /**
-   * @description If no time is bound and defaultTimeToNow is true then the current clock time will be used.
+   * @description If selectedTime===null and defaultTimeToNow is true then the current clock time will be used.
+   *              defaultTimeToNow is ignored if selectedTime !==null
    * @property
    * @public
    * @type {boolean}
@@ -285,7 +286,13 @@ export default Component.extend(
       }
     }
 
-    if (selectedTime) {
+    // If allowClear is false and selectedTime is null then default selectedTime to times[0].
+    if (selectedTime === null && this.get('allowClear') === false) {
+      this.send('onchange', times[0]);
+    }
+
+    // If the selectedTime is not null warn if the selectedTime is not in the times[] array.
+    if (selectedTime !== null) {
       warn('time-picker: Invalid selectedTime: ' + selectedTime, times.includes(selectedTime), {"id" : "ember-cli-time-picker"});
     }
   },

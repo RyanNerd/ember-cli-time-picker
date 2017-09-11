@@ -29,3 +29,22 @@
 <br/>
 <p>timeSelected2 property: {{timeSelected2}}</p>
 <p>Time from Action.onChange2(): {{time2}} </p>
+
+<hr>
+
+<p>Custom Times Array</p>
+<div style="text-align: right; clear: both; float: left; margin-right: 15px;">
+  Time:
+</div>
+<div style="width: 220px;">
+  {{time-picker
+    selectedTime=customTimeSelected
+    onchange=(action "onChange3")
+    allowClear=false
+    defaultTimeToNow=false
+    times=customTimes
+  }}
+</div>
+<br/>
+<p>customTimeSelected property: {{customTimeSelected}}</p>
+<p>Time from Action.onChange3(): {{customTimeSelectedEventValue}} </p>
