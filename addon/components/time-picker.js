@@ -156,6 +156,13 @@ export default Component.extend(
   triggerId: "",
 
   /**
+   *  Power-select property pass-through which shows when no time has been selected.
+   *  @property {string}
+   *  @public
+   */
+  placeholder: "",
+
+  /**
    * Power-select property pass-through indicating that the time can be cleared by clicking [x]
    * @property {boolean}
    * @public
