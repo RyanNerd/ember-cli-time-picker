@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-time-picker",
-  "version": "0.2.13",
+  "version": "0.2.14",
   "description": "A time-picker add-on for Ember",
   "keywords": [
     "ember-addon",
