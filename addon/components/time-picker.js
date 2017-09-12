@@ -70,131 +70,117 @@ export default Component.extend(
   layout: layout,
 
   /**
-   * @description List of times to choose from.
-   * @property
+   * List of times to choose from (options property in power-select).
+   * @property {string[] | null}
    * @public
-   * @type {string[] | null}
    */
   times: null,
 
   /**
-   * @description The currently selected time (if not null it should be set to an element in the times[] property).
-   * @property
+   * The currently selected time (if not null it should be set to an element in the times[] property).
+   * @property {string | null}
    * @public
-   * @type {string | null}
    */
   selectedTime: null,
 
   /**
-   * @description If selectedTime===null and defaultTimeToNow is true then the current clock time will be used.
-   *              defaultTimeToNow is ignored if selectedTime !==null
-   * @property
+   * If selectedTime === null and defaultTimeToNow is true then the current clock time will be used.
+   * defaultTimeToNow is ignored if selectedTime !==null
+   * @property {boolean}
    * @public
-   * @type {boolean}
    */
   defaultTimeToNow: true,
 
   /**
-   * @description When set to true military time format will be used (Only applies if the times[] array is generated).
-   * @property
+   * When set to true then military time format will be used (Only applies if the times[] array is generated).
+   * @property {boolean}
    * @public
-   * @type {boolean}
    */
   military: false,
 
   /**
-   * @description Indicates the number of minute intervals
-   * @property
+   * Indicates the number of minute intervals. If not specified 30 will be used.
+   * @property {int | null}
    * @public
-   * @type {int | null}
    * @default 30
    */
   increment: null,
 
   /**
-   * @description Indicates the beginning hour in the picklist
-   * @property
+   * Indicates the beginning hour in the picklist. If not set then 1 will be used.
+   * @property {int | null}
    * @public
-   * @type {int | null}
    * @default 1
    */
   startTimeHour: null,
 
   /**
-   * @description Indicates the ending hour in the picklist.
-   * @property
+   * Indicates the ending hour in the picklist. If not set the 24 is the default.
+   * @property {int | null}
    * @public
-   * @type {int | null}
    * @default 24
    */
   endTimeHour: null,
 
   /**
-   * @description Power-select property pass-through indicating the class of the "power-select" component.
-   * @property
+   * Power-select property pass-through indicating the class of the "power-select" component.
+   * @property {string | null}
    * @public
-   * @type {string | null}
    */
-  className: null,
+  class: null,
 
   /**
-   * @description Power-select property pass-through - id of the element used as target for the dropdown's content,
-   *              when not rendered in place.
-   * @property
+   * Power-select property pass-through - id of the element used as target for the dropdown's content,
+   * when not rendered in place.
+   * @property {string | undefined}
    * @public
-   * @type {string | undefined}
    */
   destination: undefined,
 
   /**
-   * @description Power-select property pass-through - When truthy, the list of options will be rendered in place
-   *              instead of being attached to the root of the body and positioned with javascript.
-   *              Enabling this option also adds a wrapper div around the trigger and the content with
-   *              class .ember-power-select.
-   * @property
+   * Power-select property pass-through - When truthy, the list of options will be rendered in place
+   * instead of being attached to the root of the body and positioned with javascript.
+   * Enabling this option also adds a wrapper div around the trigger and the content with
+   * class .ember-power-select.
+   * @property {boolean}
    * @public
-   * @type {boolean}
    */
   renderInPlace: false,
 
   /**
-   * @description Power-select pass-through - The id to be applied to the trigger.
-   *              Useful link the select to a <label> tag.
-   * @property
+   * Power-select pass-through - The id to be applied to the trigger.
+   * Useful link the select to a <label> tag.
+   * @property {string}
    * @public
-   * @type {string}
    */
   triggerId: "",
 
   /**
-   * @description Power-select property pass-through indicating that the time can be cleared by clicking [x]
-   * @property
+   * Power-select property pass-through indicating that the time can be cleared by clicking [x]
+   * @property {boolean}
    * @public
-   * @type {boolean}
    */
   allowClear: true,
 
   /**
-   * @description Power-select property pass-though indicating if the component is disabled or not.
-   * @property
+   * Power-select property pass-though indicating if the component is disabled or not.
+   * @property {boolean}
    * @public
-   * @type {boolean}
    */
   disabled: false,
 
   /**
-   * @description Default message displayed when searching for a time and the search has no match in the times array.
-   * @property
+   * Power-select pass-through the default message displayed when searching for a time and the search has no match
+   * in the times array.
+   * @property {string}
    * @public
-   * @type {string}
    */
   noMatchesMessage: "No matching time found",
 
   /**
-   * @description Default the search box as enabled (Power-select pass-through)
-   * @property
+   * Power-select pass-through indicating if the search box as enabled.
+   * @property {boolean}
    * @public
-   * @type {boolean}
    */
   searchEnabled: true,
 
@@ -353,7 +339,7 @@ export default Component.extend(
   },
 
   /**
-   * @description Returns the date object (or the current date) as a string in a "digital clock" format:
+   * Returns the date object (or the current date) as a string in a "digital clock" format:
    * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Numbers_and_dates
    * @param {Date | null} date Date object; if not provided the current date/time will be used.
    * @returns {string} The date as a string in a "digital clock" format (ex: 12:08 PM, 3:14 AM).
@@ -392,13 +378,13 @@ export default Component.extend(
   },
 
   /**
-   * @description All actions are power-select pass-through actions
+   * All actions are simply power-select pass-through actions
    * (with the exception of onchange which also updates the selectedTime property).
    */
   actions:
   {
     /**
-     * @description Two-way binding is established by setting the selectedTime property when a new selection is made.
+     * Two-way binding is established by setting the selectedTime property when a new selection is made.
      * @param {string | null } value
      */
     onchange(value)
