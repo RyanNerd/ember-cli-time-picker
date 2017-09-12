@@ -70,7 +70,7 @@ export default Component.extend(
   layout: layout,
 
   /**
-   * List of times to choose from (options property in power-select).
+   * List of times to choose from (corresponds to the options property in power-select).
    * @property {string[] | null}
    * @public
    */
@@ -122,30 +122,82 @@ export default Component.extend(
    */
   endTimeHour: null,
 
+  /*******************************************
+   * START: Power-select property pass-through
+   *******************************************/
+
   /**
-   * Power-select property pass-through indicating the class of the "power-select" component.
+   * When true the time can be cleared by clicking [x]
+   * @property {boolean}
+   * @public
+   */
+  allowClear: true,
+
+  /**
+   * The CSS class of the power-select component.
    * @property {string | null}
    * @public
    */
   class: null,
 
   /**
-   * Power-select property pass-through - id of the element used as target for the dropdown's content,
-   * when not rendered in place.
+   * Id of the element used as target for the dropdown's content, when not rendered in place.
    * @property {string | undefined}
    * @public
    */
   destination: undefined,
 
   /**
-   * Power-select property pass-through - When truthy, the list of options will be rendered in place
-   * instead of being attached to the root of the body and positioned with javascript.
-   * Enabling this option also adds a wrapper div around the trigger and the content with
+   * Indicates if the component is disabled or not.
+   * @property {boolean}
+   * @public
+   */
+  disabled: false,
+
+  /**
+   * CSS class applied to the dropdown only.
+   * @property {string | null}
+   * @public
+   */
+  dropdownClass: null,
+
+  /**
+   * When true the component is rendered initially in the open state.
+   * @property {boolean}
+   * @public
+   */
+  initiallyOpened: false,
+
+  /**
+   * The default message displayed when searching for a time and the search has no match
+   * in the times array.
+   * @property {string}
+   * @public
+   */
+  noMatchesMessage: "No matching time found",
+
+  /**
+   *  Text to show when no time has been selected.
+   *  @property {string}
+   *  @public
+   */
+  placeholder: "",
+
+  /**
+   * When truthy, the list of options will be rendered in place instead of being attached to the root of the body and
+   * positioned with javascript.Enabling this option also adds a wrapper div around the trigger and the content with
    * class .ember-power-select.
    * @property {boolean}
    * @public
    */
   renderInPlace: false,
+
+  /**
+   * Indicates if the search box is enabled.
+   * @property {boolean}
+   * @public
+   */
+  searchEnabled: true,
 
   /**
    * Power-select pass-through - The id to be applied to the trigger.
@@ -155,41 +207,9 @@ export default Component.extend(
    */
   triggerId: "",
 
-  /**
-   *  Power-select property pass-through which shows when no time has been selected.
-   *  @property {string}
-   *  @public
-   */
-  placeholder: "",
-
-  /**
-   * Power-select property pass-through indicating that the time can be cleared by clicking [x]
-   * @property {boolean}
-   * @public
-   */
-  allowClear: true,
-
-  /**
-   * Power-select property pass-though indicating if the component is disabled or not.
-   * @property {boolean}
-   * @public
-   */
-  disabled: false,
-
-  /**
-   * Power-select pass-through the default message displayed when searching for a time and the search has no match
-   * in the times array.
-   * @property {string}
-   * @public
-   */
-  noMatchesMessage: "No matching time found",
-
-  /**
-   * Power-select pass-through indicating if the search box as enabled.
-   * @property {boolean}
-   * @public
-   */
-  searchEnabled: true,
+  /*****************************************
+   * END: Power-select property pass-through
+   *****************************************/
 
   /**
    * This fires prior to inserting the component into the DOM
@@ -387,10 +407,23 @@ export default Component.extend(
   /**
    * All actions are simply power-select pass-through actions
    * (with the exception of onchange which also updates the selectedTime property).
+   * @see http://www.ember-power-select.com/docs/api-reference
    */
   actions:
   {
     /**
+     * Invoked when component or any of its subitems looses the focus.
+     * The last argument is the FocusEvent, that can be used to disambiguate what gained the focus.
+     * @param select
+     * @param e
+     */
+    onblur(select, e)
+    {
+      this.sendAction('onblur', select, e);
+    },
+
+    /**
+     * Invoked when the user selects an option.
      * Two-way binding is established by setting the selectedTime property when a new selection is made.
      * @param {string | null } value
      */
@@ -400,29 +433,55 @@ export default Component.extend(
         this.sendAction('onchange', value);
     },
 
+    /**
+     * Invoked when the component is closed.
+     * @param select
+     * @param e
+     */
+    onclose(select, e)
+    {
+      this.sendAction('onclose', select, e);
+    },
+
+    /**
+     * Invoked when the component gets focus.
+     * @param select
+     * @param e
+     */
+    onfocus(select, e)
+    {
+      this.sendAction('onfocus', select, e);
+    },
+
+    /**
+     * Invoked when the user changes the text in any any search input of the component.
+     * If the function returns false the default behaviour (filter/search) is prevented.
+     * @param select
+     * @param e
+     */
+    oninput(select, e)
+    {
+      this.sendAction('oninput', select, e);
+    },
+
+    /**
+     * Invoked when the user presses a key being the component or the inputs inside it focused.
+     * @param dropdown
+     * @param e
+     */
     onkeydown(dropdown, e)
     {
         this.sendAction("onkeydown", dropdown, e);
     },
 
-    onfocus(select, e)
-    {
-        this.sendAction('onfocus', select, e);
-    },
-
-    onblur(select, e)
-    {
-        this.sendAction('onblur', select, e);
-    },
-
+    /**
+     * Invoked when the component is opened.
+     * @param select
+     * @param e
+     */
     onopen(select, e)
     {
         this.sendAction('onopen', select, e);
-    },
-
-    onclose(select, e)
-    {
-        this.sendAction('onclose', select, e);
     }
   }
 });

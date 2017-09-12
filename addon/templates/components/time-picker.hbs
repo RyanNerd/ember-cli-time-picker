@@ -1,21 +1,24 @@
 <div class="input-group time-picker">
     {{#power-select
+        allowClear=allowClear
         class=class
-        placeholder=placeholder
-        triggerId=triggerId
-        noMatchesMessage=noMatchesMessage
         destination=destination
         disabled=disabled
-        allowClear=allowClear
+        dropdownClass=dropdownClass
+        initiallyOpened=initiallyOpened
+        noMatchesMessage=noMatchesMessage
+        placeholder=placeholder
         renderInPlace=renderInPlace
         searchEnabled=searchEnabled
+        triggerId=triggerId
         selected=selectedTime
+        onblur=(action "onblur")
         onchange=(action "onchange")
-        onkeydown=(action "onkeydown")
-        onopen=(action "onopen")
         onclose=(action "onclose")
         onfocus=(action "onfocus")
-        onblur=(action "onblur")
+        oninput=(action "oninput")
+        onkeydown=(action "onkeydown")
+        onopen=(action "onopen")
         options=times as |time|}}
       {{time}}
     {{/power-select}}
