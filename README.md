@@ -261,3 +261,6 @@ export default Controller.extend(
 
 * `ember serve`
 * Visit [http://localhost:4200](http://localhost:4200).
+
+![Example](https://github.com/ryannerd/ember-cli-time-picker/blob/screenshots/screenshots/example-2.png)
+![Example](https://github.com/ryannerd/ember-cli-time-picker/blob/screenshots/screenshots/example-1.png)
