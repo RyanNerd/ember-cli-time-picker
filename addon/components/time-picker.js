@@ -212,6 +212,20 @@ export default Component.extend(
   searchEnabled: true,
 
   /**
+   * Component to be rendered as placeholder. It can be used along with placeholder and has access to it.
+   * @property {string | undefined}
+   * @public
+   */
+  placeholderComponent: undefined,
+
+  /**
+   * The component to render instead of the default one inside the trigger.
+   * @property {string | undefined}
+   * @public
+   */
+  triggerComponent: undefined,
+
+  /**
    * Power-select pass-through - The id to be applied to the trigger.
    * Useful link the select to a <label> tag.
    * @property {string}

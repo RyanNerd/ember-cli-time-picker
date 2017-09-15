@@ -95,6 +95,20 @@ These properties behave the same as [documented](http://www.ember-power-select.c
   searchEnabled: true
 
   /**
+   * Component to be rendered as placeholder. It can be used along with placeholder and has access to it.
+   * @property {string | undefined}
+   * @public
+   */
+  placeholderComponent: undefined
+
+  /**
+   * The component to render instead of the default one inside the trigger.
+   * @property {string | undefined}
+   * @public
+   */
+  triggerComponent: undefined
+
+  /**
    * The id to be applied to the trigger.
    * Useful link the select to a <label> tag.
    * @property {string}
@@ -130,7 +144,7 @@ These properties behave the same as [documented](http://www.ember-power-select.c
   timeComponent: 'time-element'
 
   /**
-   * Component to render for the trigger (corresponds to the selectedItemComponent in power-select)
+   * Component to render for the selected time (corresponds to the selectedItemComponent in power-select)
    * @property {string}
    * @public
    */
