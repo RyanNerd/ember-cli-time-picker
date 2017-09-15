@@ -123,6 +123,20 @@ These properties behave the same as [documented](http://www.ember-power-select.c
   selectedTime: null
 
   /**
+   * Component to render for each time element.
+   * @property {string}
+   * @public
+   */
+  timeComponent: 'time-element'
+
+  /**
+   * Component to render for the trigger (corresponds to the selectedItemComponent in power-select)
+   * @property {string}
+   * @public
+   */
+  selectedTimeComponent: 'selected-time'
+  
+  /**
    * If selectedTime === null and defaultTimeToNow is true then the current clock time will be used.
    * defaultTimeToNow is ignored if selectedTime !==null
    * @property {boolean}

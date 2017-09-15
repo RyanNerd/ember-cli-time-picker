@@ -56,9 +56,7 @@ const DEFAULT_TIMES =
     '10:00 PM',
     '10:30 PM',
     '11:00 PM',
-    '11:30 PM',
-    '12:30 PM',
-    '12:00 PM'
+    '11:30 PM'
   ];
 
 /**
@@ -68,6 +66,20 @@ const DEFAULT_TIMES =
 export default Component.extend(
 {
   layout: layout,
+
+  /**
+   * Component to render for each time element.
+   * @property {string}
+   * @public
+   */
+  timeComponent: 'time-element',
+
+  /**
+   * Component to render for the trigger (corresponds to the selectedItemComponent in power-select)
+   * @property {string}
+   * @public
+   */
+  selectedTimeComponent: 'selected-time',
 
   /**
    * List of times to choose from (corresponds to the options property in power-select).

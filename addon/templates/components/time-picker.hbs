@@ -12,6 +12,7 @@
         searchEnabled=searchEnabled
         triggerId=triggerId
         selected=selectedTime
+        selectedItemComponent=selectedTimeComponent
         onblur=(action "onblur")
         onchange=(action "onchange")
         onclose=(action "onclose")
@@ -20,6 +21,11 @@
         onkeydown=(action "onkeydown")
         onopen=(action "onopen")
         options=times as |time|}}
-      {{time}}
+      {{#if timeComponent}}
+        {{component timeComponent time=time}}
+      {{else}}
+        {{time}}
+      {{/if}}
+
     {{/power-select}}
 </div>
