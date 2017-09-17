@@ -204,11 +204,13 @@ All actions are pass-through actions to the Ember Power Select component:
     onblur(select, e)
 
     /**
-     * Invoked when the user selects an option.
+     * Invoked when the user selects/changes a time.
      * Two-way binding is established by setting the selectedTime property when a new selection is made.
-     * @param {string | null } value
+     * @param {string | null} timeString The time string of the selected time (can be null if no time selected, or cleared).
+     * @param {int | null} hours The hours from the time string as an integer.
+     * @param {int | null} minutes The minutes from the time string as an integer. 
      */
-    onchange(value)
+    onchange(timeString, hours, minutes)
 
     /**
      * Invoked when the component is closed.

@@ -9,6 +9,13 @@ export default Component.extend({
   timeSelected2: null,
   time2: null,
 
+  hours1: null,
+  minutes1: null,
+  hours2: null,
+  minutes2: null,
+  hours3: null,
+  minutes3: null,
+
   customTimeSelectedEventValue: null,
   customTimeSelected: null,
   customTimes:
@@ -37,18 +44,24 @@ export default Component.extend({
 
   actions:
   {
-    onChange(value)
+    onChange(value, hours, minutes)
     {
-        this.set('time', value);
+      this.set('hours1', hours);
+      this.set('minutes1', minutes);
+      this.set('time', value);
     },
 
-    onChange2(value)
+    onChange2(value, hours, minutes)
     {
+      this.set('hours2', hours);
+      this.set('minutes2', minutes);
       this.set('time2', value);
     },
 
-    onChange3(value)
+    onChange3(value, hours, minutes)
     {
+      this.set('hours3', hours);
+      this.set('minutes3', minutes);
       this.set('customTimeSelectedEventValue', value);
     }
   }

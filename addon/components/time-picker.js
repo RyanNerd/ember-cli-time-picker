@@ -420,6 +420,36 @@ export default Component.extend(
   },
 
   /**
+   * Return the Hours as integer from a time string.
+   * @public
+   * @returns {int | null}
+   */
+  hours(timeString)
+  {
+    let hours = null;
+    if (timeString) {
+      let date = new Date('1970-01-01 ' + timeString);
+      hours = date.getHours();
+    }
+    return hours;
+  },
+
+  /**
+   * Return Minutes as an integer from a time string.
+   * @public
+   * @returns {int | null}
+   */
+  minutes(timeString)
+  {
+    let minutes = null;
+    if (timeString) {
+      let date = new Date('1970-01-01 ' + timeString);
+      minutes =  date.getMinutes();
+    }
+    return minutes;
+  },
+
+  /**
    * Add leading zeros to a number returning the zero padded number as a string.
    * @param {number} num The number to pad with zeros.
    * @param {int} places Number of digits of the number to have leading zeros.
@@ -451,12 +481,14 @@ export default Component.extend(
     /**
      * Invoked when the user selects an option.
      * Two-way binding is established by setting the selectedTime property when a new selection is made.
-     * @param {string | null } value
+     * @param {string | null } timeString
      */
-    onchange(value)
+    onchange(timeString)
     {
-        this.set('selectedTime', value);
-        this.sendAction('onchange', value);
+      // Update the selectedTime.
+      this.set('selectedTime', timeString);
+
+      this.sendAction('onchange', timeString, this.hours(timeString), this.minutes(timeString));
     },
 
     /**
