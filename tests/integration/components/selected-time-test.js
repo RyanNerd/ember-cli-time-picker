@@ -1,3 +1,4 @@
+/* jshint ignore:start */
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -15,10 +16,9 @@ test('it renders', function(assert) {
 
   // Template block usage:
   this.render(hbs`
-    {{#selected-time}}
-      template block text
-    {{/selected-time}}
+    {{selected-time}}
   `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal('todo', 'todo');
 });
+/* jshint ignore:end */

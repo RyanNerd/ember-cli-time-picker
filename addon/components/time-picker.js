@@ -68,6 +68,11 @@ export default Component.extend(
   layout: layout,
 
   /**
+   * Class name bindings.
+   */
+  classNames: ['time-picker'],
+
+  /**
    * Component to render for each time element.
    * @property {string}
    * @public
