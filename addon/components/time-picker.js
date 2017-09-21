@@ -218,17 +218,17 @@ export default Component.extend(
 
   /**
    * Component to be rendered as placeholder. It can be used along with placeholder and has access to it.
-   * @property {string | undefined}
+   * @property {string}
    * @public
    */
-  placeholderComponent: undefined,
+  placeholderComponent: 'power-select/placeholder',
 
   /**
    * The component to render instead of the default one inside the trigger.
-   * @property {string | undefined}
+   * @property {string}
    * @public
    */
-  triggerComponent: undefined,
+  triggerComponent: 'power-select/trigger',
 
   /**
    * Power-select pass-through - The id to be applied to the trigger.
